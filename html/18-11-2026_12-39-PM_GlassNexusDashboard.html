@@ -1,0 +1,192 @@
+<!-- SUMMARY: A high-performance Glassmorphism Dashboard built with HTML, Tailwind CSS, and Vanilla JavaScript. Features a dynamic radial-gradient glow that follows the mouse cursor for a depth effect. -->
+<!-- PREVIEW: Save this content as an .html file and open in any modern browser. Tailwind is loaded via CDN. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlassNexus | Senior Developer Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --mouse-x: 50%;
+            --mouse-y: 50%;
+        }
+        body {
+            background-color: #020617;
+            color: #f8fafc;
+            overflow: hidden;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+        .dynamic-bg {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at var(--mouse-x) var(--mouse-y), rgba(79, 70, 229, 0.15) 0%, transparent 45%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .card-hover:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(99, 102, 241, 0.4);
+            transform: translateY(-2px);
+        }
+        @keyframes pulse-slow {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.6; }
+        }
+        .animate-pulse-slow {
+            animation: pulse-slow 4s infinite;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+    <div class="dynamic-bg" id="bg-glow"></div>
+
+    <div class="relative z-10 flex flex-1 overflow-hidden">
+        <!-- Sidebar -->
+        <aside class="w-20 lg:w-64 glass border-r border-white/5 flex flex-col p-4 transition-all duration-300">
+            <div class="flex items-center gap-3 px-2 mb-10">
+                <div class="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center font-bold text-xl">N</div>
+                <span class="hidden lg:block font-bold text-xl tracking-tight">NexusFlow</span>
+            </div>
+            <nav class="flex-1 flex flex-col gap-2">
+                <button class="w-full flex items-center gap-4 p-3 rounded-xl bg-indigo-500/20 text-indigo-400 border border-indigo-500/30">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+                    <span class="hidden lg:block">Dashboard</span>
+                </button>
+                <button class="w-full flex items-center gap-4 p-3 rounded-xl card-hover text-slate-400 hover:text-white">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                    <span class="hidden lg:block">Analytics</span>
+                </button>
+                <button class="w-full flex items-center gap-4 p-3 rounded-xl card-hover text-slate-400 hover:text-white">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    <span class="hidden lg:block">Schedules</span>
+                </button>
+            </nav>
+            <div class="mt-auto p-2 glass rounded-2xl hidden lg:block">
+                <p class="text-xs text-slate-500 mb-2">System Status</p>
+                <div class="flex items-center gap-2">
+                    <div class="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_#10b981]"></div>
+                    <span class="text-xs">All Nodes Operational</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 overflow-y-auto p-6 lg:p-10 space-y-8">
+            <header class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <h1 class="text-3xl font-light text-white">Deployment <span class="font-bold">Insights</span></h1>
+                    <p class="text-slate-400 mt-1">Monitoring traffic across 14 edge locations</p>
+                </div>
+                <div class="flex items-center gap-3 glass p-1 rounded-full">
+                    <div class="px-4 py-2 text-sm">Week</div>
+                    <div class="px-4 py-2 text-sm bg-white/10 rounded-full shadow-lg">Month</div>
+                    <div class="px-4 py-2 text-sm">Year</div>
+                </div>
+            </header>
+
+            <!-- Stats Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+                <div class="glass p-6 rounded-3xl card-hover relative overflow-hidden">
+                    <div class="absolute top-0 right-0 p-4 opacity-10">
+                        <svg class="w-16 h-16" fill="currentColor" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                    </div>
+                    <p class="text-slate-400 text-sm font-medium mb-1">Request Latency</p>
+                    <h3 class="text-2xl font-mono text-indigo-400">14ms</h3>
+                    <div class="mt-4 flex items-center gap-2">
+                        <span class="text-xs text-emerald-400 font-bold px-2 py-0.5 rounded-full bg-emerald-500/10">-4%</span>
+                        <span class="text-xs text-slate-500">vs last hour</span>
+                    </div>
+                </div>
+                <div class="glass p-6 rounded-3xl card-hover">
+                    <p class="text-slate-400 text-sm font-medium mb-1">Active Instances</p>
+                    <h3 class="text-2xl font-mono text-cyan-400">128</h3>
+                    <div class="mt-4 flex items-center gap-2">
+                        <span class="text-xs text-slate-400">Stable</span>
+                        <div class="flex-1 h-1 bg-white/5 rounded-full overflow-hidden">
+                            <div class="h-full bg-cyan-500 w-3/4 shadow-[0_0_8px_#06b6d4]"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="glass p-6 rounded-3xl card-hover">
+                    <p class="text-slate-400 text-sm font-medium mb-1">CPU Overhead</p>
+                    <h3 class="text-2xl font-mono text-rose-400">42.8%</h3>
+                    <div class="mt-4 flex items-center gap-2">
+                        <span class="text-xs text-rose-400 font-bold px-2 py-0.5 rounded-full bg-rose-500/10">+12%</span>
+                        <span class="text-xs text-slate-500">High load</span>
+                    </div>
+                </div>
+                <div class="glass p-6 rounded-3xl card-hover">
+                    <p class="text-slate-400 text-sm font-medium mb-1">Global Uptime</p>
+                    <h3 class="text-2xl font-mono text-emerald-400">99.998%</h3>
+                    <div class="mt-4 flex items-center gap-2">
+                        <div class="flex -space-x-2">
+                            <div class="w-6 h-6 rounded-full bg-indigo-500 border border-slate-900"></div>
+                            <div class="w-6 h-6 rounded-full bg-cyan-500 border border-slate-900"></div>
+                            <div class="w-6 h-6 rounded-full bg-purple-500 border border-slate-900"></div>
+                        </div>
+                        <span class="text-xs text-slate-500 ml-2">3 Team Leads active</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Visualization Container -->
+            <div class="glass rounded-3xl p-8 min-h-[400px] flex flex-col">
+                <div class="flex items-center justify-between mb-8">
+                    <h2 class="text-xl font-medium">Traffic Heatmap</h2>
+                    <div class="flex gap-2">
+                        <button class="w-8 h-8 rounded-lg glass flex items-center justify-center hover:bg-white/10"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"/></svg></button>
+                    </div>
+                </div>
+                <div class="flex-1 grid grid-cols-7 gap-4 items-end">
+                    <!-- Simulated Chart Columns -->
+                    <div class="bg-indigo-500/20 h-3/4 rounded-t-xl border-t border-indigo-500/50"></div>
+                    <div class="bg-indigo-500/30 h-1/2 rounded-t-xl border-t border-indigo-500/50 animate-pulse-slow"></div>
+                    <div class="bg-indigo-500/20 h-2/3 rounded-t-xl border-t border-indigo-500/50"></div>
+                    <div class="bg-indigo-500/50 h-full rounded-t-xl border-t border-indigo-500/50"></div>
+                    <div class="bg-indigo-500/20 h-4/5 rounded-t-xl border-t border-indigo-500/50"></div>
+                    <div class="bg-indigo-500/30 h-1/3 rounded-t-xl border-t border-indigo-500/50"></div>
+                    <div class="bg-indigo-500/40 h-3/5 rounded-t-xl border-t border-indigo-500/50 animate-pulse-slow"></div>
+                </div>
+                <div class="mt-6 flex justify-between text-xs text-slate-500 font-mono">
+                    <span>MON</span><span>TUE</span><span>WED</span><span>THU</span><span>FRI</span><span>SAT</span><span>SUN</span>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const glow = document.getElementById('bg-glow');
+        
+        window.addEventListener('mousemove', (e) => {
+            const x = e.clientX;
+            const y = e.clientY;
+            
+            // Update CSS variables for smooth background effect
+            document.documentElement.style.setProperty('--mouse-x', `${x}px`);
+            document.documentElement.style.setProperty('--mouse-y', `${y}px`);
+        });
+
+        // Add some interactive click feedback for cards
+        document.querySelectorAll('.glass').forEach(card => {
+            card.addEventListener('mousedown', () => {
+                card.style.transform = 'scale(0.98)';
+            });
+            card.addEventListener('mouseup', () => {
+                card.style.transform = '';
+            });
+        });
+    </script>
+</body>
+</html>
