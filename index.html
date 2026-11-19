@@ -3,82 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lions Electro Hub | Premium Electronics</title>
+    <title>Lions Electro Hub | Premium Tech Store</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body class="dark-mode">
-    <nav class="navbar">
-        <div class="container">
-            <div class="logo-brand">
-                <img src="logo.svg" alt="Lions Electro Hub" class="logo-img">
-                <span class="logo-text">LIONS HUB</span>
+    <header>
+        <nav class="container">
+            <div class="logo-area">
+                <img src="graphic.svg" alt="Lions Electro Hub" class="logo">
+                <h1>Lions Electro</h1>
             </div>
             <div class="search-bar">
-                <input type="text" id="productSearch" placeholder="Search gadgets, MacBooks...">
-                <button><i class="fas fa-search"></i></button>
+                <input type="text" id="productSearch" placeholder="Search gadgets...">
             </div>
             <div class="nav-actions">
-                <button id="cartBtn" class="nav-icon-btn">
-                    <i class="fas fa-shopping-cart"></i>
+                <button id="authBtn" onclick="openAuth()">Login</button>
+                <div class="cart-icon" onclick="toggleCart()">
+                    <span>🛒</span>
                     <span id="cartCount">0</span>
-                </button>
-                <button id="userBtn" class="nav-icon-btn">
-                    <i class="fas fa-user"></i>
-                </button>
+                </div>
             </div>
-        </div>
-    </nav>
-
-    <header class="hero">
-        <div class="hero-content">
-            <h1>Next-Gen Electronics</h1>
-            <p>Experience the peak of performance with our MacBook line and premium gadgets.</p>
-            <button class="btn-primary" onclick="scrollToShop()">Shop Now</button>
-        </div>
+        </nav>
     </header>
 
-    <main class="container">
-        <section class="filters">
-            <button class="filter-btn active" data-category="all">All</button>
-            <button class="filter-btn" data-category="MacBooks">MacBooks</button>
-            <button class="filter-btn" data-category="Gadgets">Gadgets</button>
-            <button class="filter-btn" data-category="Lights">Lights</button>
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h2>Power Your Future</h2>
+                <p>Exclusive deals on MacBooks, RGB Lights, and Premium Gadgets.</p>
+                <button class="cta-btn" onclick="scrollToProducts()">Shop Now</button>
+            </div>
         </section>
 
-        <div id="productGrid" class="product-grid"></div>
+        <section class="filters container">
+            <button class="filter-btn active" onclick="filterProducts('all')">All</button>
+            <button class="filter-btn" onclick="filterProducts('laptops')">Laptops</button>
+            <button class="filter-btn" onclick="filterProducts('gadgets')">Gadgets</button>
+            <button class="filter-btn" onclick="filterProducts('lighting')">Lighting</button>
+        </section>
+
+        <section id="productGrid" class="product-grid container">
+            <!-- Products injected by JS -->
+        </section>
     </main>
 
-    <div id="cartSidebar" class="sidebar">
-        <div class="sidebar-header">
-            <h2>Your Cart</h2>
-            <button id="closeCart">&times;</button>
-        </div>
-        <div id="cartItems"></div>
-        <div class="sidebar-footer">
-            <div class="total-box">
-                <span>Total:</span>
-                <span id="cartTotal">$0.00</span>
-            </div>
-            <button class="btn-checkout">Proceed to Checkout</button>
+    <div id="cartDrawer" class="drawer">
+        <div class="drawer-content">
+            <span class="close" onclick="toggleCart()">&times;</span>
+            <h3>Your Cart</h3>
+            <div id="cartItems"></div>
+            <div class="cart-total">Total: $<span id="totalPrice">0</span></div>
+            <button class="checkout-btn" onclick="proceedToCheckout()">Checkout</button>
         </div>
     </div>
 
     <div id="welcomePopup" class="modal">
         <div class="modal-content">
-            <span class="close-popup">&times;</span>
-            <h2>Welcome to Lions Hub!</h2>
-            <p>Get 20% OFF your first order with code:</p>
-            <div class="promo-code">LION20</div>
-            <button class="btn-primary close-popup-btn">Start Shopping</button>
+            <span class="close" onclick="closePopup()">&times;</span>
+            <h2>🦁 Welcome to the Pride!</h2>
+            <p>Get 20% OFF your first order with code: <strong>LION20</strong></p>
+            <button class="cta-btn" onclick="closePopup()">Claim Discount</button>
         </div>
     </div>
-
-    <div id="overlay"></div>
-
-    <footer>
-        <p>&copy; 2023 Lions Electro Hub. Performance Electrified.</p>
-    </footer>
 
     <script src="script.js"></script>
 </body>
