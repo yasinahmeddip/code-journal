@@ -1,50 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NexusDash | Senior Front-End</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.158.0/three.min.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nexus Dash</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
 </head>
-<body class="bg-slate-900 text-white overflow-x-hidden">
-    <canvas id="bg-canvas" class="fixed top-0 left-0 -z-10"></canvas>
-    
-    <nav class="flex items-center justify-between p-6 glass-effect sticky top-0 z-50">
-        <div class="flex items-center space-x-3">
-            <img src="graphic.svg" alt="Logo" class="w-10 h-10">
-            <span class="text-2xl font-bold tracking-tighter">NEXUS</span>
-        </div>
-        <div class="hidden md:flex space-x-8 font-medium">
-            <a href="#" class="hover:text-cyan-400 transition-colors">Analytics</a>
-            <a href="#" class="hover:text-cyan-400 transition-colors">Performance</a>
-            <a href="#" class="hover:text-cyan-400 transition-colors">Documentation</a>
-        </div>
-    </nav>
-
-    <main class="container mx-auto px-6 py-12">
-        <header class="mb-12" id="hero">
-            <h1 class="text-5xl md:text-7xl font-extrabold mb-4 opacity-0">Future Visualized.</h1>
-            <p class="text-slate-400 text-xl max-w-2xl opacity-0">High-performance data dashboard leveraging GPU-accelerated visuals and real-time markdown processing.</p>
+<body class="bg-slate-950 text-slate-100 overflow-hidden">
+  <canvas id="hero-canvas" class="fixed top-0 left-0 w-full h-full -z-10"></canvas>
+  <div class="flex h-screen bg-slate-950/40 backdrop-blur-md">
+    <aside class="w-20 md:w-64 border-r border-slate-800 flex flex-col items-center py-8 gap-10">
+      <img src="graphic.svg" alt="Logo" class="w-10 h-10 logo-anim">
+      <nav class="flex flex-col gap-6">
+        <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center cursor-pointer">📊</div>
+        <div class="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center cursor-pointer">⚙️</div>
+        <div class="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center cursor-pointer">👤</div>
+      </nav>
+    </aside>
+    <main class="flex-1 overflow-y-auto p-6 md:p-12">
+      <div class="max-w-6xl mx-auto">
+        <header class="mb-12">
+          <h1 class="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400">System Overview</h1>
+          <p class="text-slate-400 mt-2 uppercase tracking-widest text-xs">Real-time environment monitoring</p>
         </header>
-
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <section class="lg:col-span-2 glass-card p-8 rounded-2xl opacity-0 translate-y-10">
-                <h3 class="text-xl font-semibold mb-6">Revenue Streams</h3>
-                <canvas id="mainChart"></canvas>
-            </section>
-
-            <section class="glass-card p-8 rounded-2xl opacity-0 translate-y-10">
-                <h3 class="text-xl font-semibold mb-6">Project Notes</h3>
-                <div id="markdown-content" class="prose prose-invert prose-cyan max-w-none"></div>
-            </section>
+          <div class="lg:col-span-2 bg-slate-900/60 p-6 rounded-2xl border border-slate-800 shadow-2xl">
+            <h2 class="text-lg font-semibold mb-6">Analytics Flux</h2>
+            <div class="h-64">
+              <canvas id="mainChart"></canvas>
+            </div>
+          </div>
+          <div class="bg-slate-900/60 p-6 rounded-2xl border border-slate-800 shadow-2xl overflow-hidden">
+            <h2 class="text-lg font-semibold mb-4">Release Notes</h2>
+            <div id="md-render" class="text-sm text-slate-300 prose prose-invert prose-sm"></div>
+          </div>
         </div>
+      </div>
     </main>
-
-    <script src="script.js" defer></script>
+  </div>
 </body>
 </html>
