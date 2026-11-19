@@ -1,48 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nexus Dash</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
-  <link rel="stylesheet" href="style.css">
-  <script src="script.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuantumDash | Enterprise Intelligence</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
 </head>
-<body class="bg-slate-950 text-slate-100 overflow-hidden">
-  <canvas id="hero-canvas" class="fixed top-0 left-0 w-full h-full -z-10"></canvas>
-  <div class="flex h-screen bg-slate-950/40 backdrop-blur-md">
-    <aside class="w-20 md:w-64 border-r border-slate-800 flex flex-col items-center py-8 gap-10">
-      <img src="graphic.svg" alt="Logo" class="w-10 h-10 logo-anim">
-      <nav class="flex flex-col gap-6">
-        <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center cursor-pointer">📊</div>
-        <div class="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center cursor-pointer">⚙️</div>
-        <div class="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center cursor-pointer">👤</div>
-      </nav>
-    </aside>
-    <main class="flex-1 overflow-y-auto p-6 md:p-12">
-      <div class="max-w-6xl mx-auto">
-        <header class="mb-12">
-          <h1 class="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400">System Overview</h1>
-          <p class="text-slate-400 mt-2 uppercase tracking-widest text-xs">Real-time environment monitoring</p>
-        </header>
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div class="lg:col-span-2 bg-slate-900/60 p-6 rounded-2xl border border-slate-800 shadow-2xl">
-            <h2 class="text-lg font-semibold mb-6">Analytics Flux</h2>
-            <div class="h-64">
-              <canvas id="mainChart"></canvas>
+<body class="bg-slate-950 text-white overflow-hidden">
+    <canvas id="bg-canvas" class="fixed top-0 left-0 w-full h-full -z-10"></canvas>
+
+    <div class="flex h-screen w-full">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-slate-900/80 backdrop-blur-xl border-r border-slate-800 flex flex-col p-6">
+            <div class="flex items-center gap-3 mb-10">
+                <img src="graphic.svg" alt="Logo" class="w-8 h-8">
+                <span class="text-xl font-bold tracking-tighter">QUANTUM</span>
             </div>
-          </div>
-          <div class="bg-slate-900/60 p-6 rounded-2xl border border-slate-800 shadow-2xl overflow-hidden">
-            <h2 class="text-lg font-semibold mb-4">Release Notes</h2>
-            <div id="md-render" class="text-sm text-slate-300 prose prose-invert prose-sm"></div>
-          </div>
-        </div>
-      </div>
-    </main>
-  </div>
+            <nav class="space-y-2 flex-grow">
+                <button data-target="dashboard" class="nav-btn active w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all hover:bg-slate-800">
+                    <span>Dashboard</span>
+                </button>
+                <button data-target="analytics" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all hover:bg-slate-800">
+                    <span>Analytics</span>
+                </button>
+                <button data-target="docs" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all hover:bg-slate-800">
+                    <span>Release Notes</span>
+                </button>
+            </nav>
+            <div class="text-xs text-slate-500">v1.0.4 - Production</div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-grow flex flex-col relative overflow-hidden">
+            <header class="h-16 flex items-center justify-between px-8 bg-slate-900/40 backdrop-blur-md border-b border-slate-800">
+                <h2 id="view-title" class="text-lg font-medium">Overview</h2>
+                <div class="flex items-center gap-4">
+                    <div class="h-8 w-8 rounded-full bg-indigo-500 flex items-center justify-center text-xs font-bold">JD</div>
+                </div>
+            </header>
+
+            <div id="content-area" class="p-8 overflow-y-auto custom-scrollbar">
+                <!-- Dashboard View -->
+                <section id="dashboard" class="view-section">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                        <div class="stat-card bg-slate-900/60 p-6 rounded-2xl border border-slate-800">
+                            <p class="text-slate-400 text-sm">Total Revenue</p>
+                            <h3 class="text-3xl font-bold mt-1">$124,592</h3>
+                            <span class="text-emerald-400 text-xs text-sm">+12.5% vs last month</span>
+                        </div>
+                        <div class="stat-card bg-slate-900/60 p-6 rounded-2xl border border-slate-800">
+                            <p class="text-slate-400 text-sm">Active Users</p>
+                            <h3 class="text-3xl font-bold mt-1">8,294</h3>
+                            <span class="text-indigo-400 text-xs text-sm">Live: 432</span>
+                        </div>
+                        <div class="stat-card bg-slate-900/60 p-6 rounded-2xl border border-slate-800">
+                            <p class="text-slate-400 text-sm">Conversion</p>
+                            <h3 class="text-3xl font-bold mt-1">3.2%</h3>
+                            <span class="text-rose-400 text-xs text-sm">-0.4% vs last week</span>
+                        </div>
+                    </div>
+                    <div class="bg-slate-900/60 p-6 rounded-2xl border border-slate-800 h-96">
+                        <canvas id="mainChart"></canvas>
+                    </div>
+                </section>
+
+                <!-- Analytics View -->
+                <section id="analytics" class="view-section hidden">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-slate-900/60 p-6 rounded-2xl border border-slate-800">
+                            <canvas id="pieChart"></canvas>
+                        </div>
+                        <div class="bg-slate-900/60 p-6 rounded-2xl border border-slate-800">
+                            <canvas id="barChart"></canvas>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Docs View -->
+                <section id="docs" class="view-section hidden">
+                    <div id="markdown-content" class="prose prose-invert max-w-none bg-slate-900/60 p-10 rounded-2xl border border-slate-800"></div>
+                </section>
+            </div>
+        </main>
+    </div>
 </body>
 </html>
