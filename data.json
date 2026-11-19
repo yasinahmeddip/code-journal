@@ -1,11 +1,10 @@
 {
-  "stats": {
-    "nodes": "1,284",
-    "uptime": "99.98%",
-    "hashrate": "482 TH/s"
-  },
-  "chart": {
-    "labels": ["00:00", "04:00", "08:00", "12:00", "16:00", "20:00", "23:59"],
-    "values": [45, 52, 48, 70, 65, 82, 78]
-  }
+  "products": [
+    { "id": 1, "name": "MacBook Pro M2", "category": "laptops", "price": 1999, "image": "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=400&q=80" },
+    { "id": 2, "name": "RGB Strip Lights", "category": "lighting", "price": 29.99, "image": "https://images.unsplash.com/photo-1550009158-9ebf69173e03?auto=format&fit=crop&w=400&q=80" },
+    { "id": 3, "name": "Wireless Headphones", "category": "audio", "price": 150, "image": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=400&q=80" },
+    { "id": 4, "name": "Mechanical Keyboard", "category": "accessories", "price": 89, "image": "https://images.unsplash.com/photo-1511467687858-23d96c32e4ae?auto=format&fit=crop&w=400&q=80" },
+    { "id": 5, "name": "Smart Desk Lamp", "category": "lighting", "price": 45, "image": "https://images.unsplash.com/photo-1534073828943-f801091bb18c?auto=format&fit=crop&w=400&q=80" },
+    { "id": 6, "name": "Gaming Mouse", "category": "accessories", "price": 55, "image": "https://images.unsplash.com/photo-1527814050087-37a3c71991c4?auto=format&fit=crop&w=400&q=80" }
+  ]
 }
