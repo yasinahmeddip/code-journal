@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Initialize Three.js Background
+    // --- Three.js Background ---
     const initThree = () => {
         const canvas = document.querySelector('#bg-canvas');
         const scene = new THREE.Scene();
@@ -7,19 +7,27 @@ document.addEventListener('DOMContentLoaded', () => {
         const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
         
         renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-        const geometry = new THREE.IcosahedronGeometry(10, 1);
-        const material = new THREE.MeshBasicMaterial({ color: 0x6366f1, wireframe: true, transparent: true, opacity: 0.1 });
-        const sphere = new THREE.Mesh(geometry, material);
-        scene.add(sphere);
+        const particlesGeometry = new THREE.BufferGeometry();
+        const count = 1000;
+        const posArray = new Float32Array(count * 3);
 
-        camera.position.z = 20;
+        for(let i = 0; i < count * 3; i++) {
+            posArray[i] = (Math.random() - 0.5) * 10;
+        }
+
+        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        const material = new THREE.PointsMaterial({ size: 0.005, color: '#3b82f6', transparent: true, opacity: 0.5 });
+        const particlesMesh = new THREE.Points(particlesGeometry, material);
+        scene.add(particlesMesh);
+
+        camera.position.z = 2;
 
         function animate() {
             requestAnimationFrame(animate);
-            sphere.rotation.x += 0.001;
-            sphere.rotation.y += 0.002;
+            particlesMesh.rotation.y += 0.001;
+            particlesMesh.rotation.x += 0.0005;
             renderer.render(scene, camera);
         }
 
@@ -32,107 +40,89 @@ document.addEventListener('DOMContentLoaded', () => {
         animate();
     };
 
-    // Handle Tab Navigation
-    const initNavigation = () => {
-        const buttons = document.querySelectorAll('.nav-btn');
-        const sections = document.querySelectorAll('.view-section');
-        const title = document.querySelector('#view-title');
+    // --- Navigation Logic ---
+    const navButtons = document.querySelectorAll('.nav-btn');
+    const sections = document.querySelectorAll('.view-section');
+    const viewTitle = document.getElementById('view-title');
 
-        buttons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                const target = btn.getAttribute('data-target');
-                
-                buttons.forEach(b => b.classList.remove('active'));
-                sections.forEach(s => s.classList.add('hidden'));
-                
-                btn.classList.add('active');
-                document.getElementById(target).classList.remove('hidden');
-                title.innerText = btn.innerText;
+    navButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const target = btn.getAttribute('data-target');
+            
+            navButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
 
-                gsap.from(`#${target}`, { opacity: 0, y: 20, duration: 0.4 });
+            sections.forEach(sec => {
+                gsap.to(sec, { duration: 0.2, opacity: 0, y: 10, display: 'none' });
             });
-        });
-    };
 
-    // Fetch and Initialize Charts
-    const initCharts = async () => {
+            const activeSec = document.getElementById(target);
+            viewTitle.textContent = btn.textContent.trim();
+
+            gsap.fromTo(activeSec, 
+                { opacity: 0, y: 10, display: 'none' }, 
+                { duration: 0.5, opacity: 1, y: 0, display: 'block', delay: 0.2 }
+            );
+        });
+    });
+
+    // --- Fetch Data & Init Charts ---
+    const initDashboard = async () => {
         try {
             const response = await fetch('data.json');
             const data = await response.json();
+
+            document.getElementById('stat-nodes').textContent = data.stats.nodes;
+            document.getElementById('stat-uptime').textContent = data.stats.uptime;
+            document.getElementById('stat-hash').textContent = data.stats.hashrate;
 
             const ctx = document.getElementById('mainChart').getContext('2d');
             new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: data.months,
+                    labels: data.chart.labels,
                     datasets: [{
-                        label: 'Revenue Trend',
-                        data: data.revenue,
-                        borderColor: '#6366f1',
-                        backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                        label: 'Performance',
+                        data: data.chart.values,
+                        borderColor: '#60a5fa',
+                        backgroundColor: 'rgba(96, 165, 250, 0.1)',
                         fill: true,
-                        tension: 0.4
+                        tension: 0.4,
+                        pointRadius: 4,
+                        pointBackgroundColor: '#60a5fa'
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: { legend: { display: false } },
-                    scales: { y: { grid: { color: '#1e293b' } }, x: { grid: { display: false } } }
+                    scales: {
+                        y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8' } },
+                        x: { grid: { display: false }, ticks: { color: '#94a3b8' } }
+                    }
                 }
             });
-
-            const pieCtx = document.getElementById('pieChart').getContext('2d');
-            new Chart(pieCtx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['SaaS', 'Services', 'Partners'],
-                    datasets: [{
-                        data: [55, 25, 20],
-                        backgroundColor: ['#6366f1', '#a855f7', '#ec4899']
-                    }]
-                },
-                options: { responsive: true, maintainAspectRatio: false }
-            });
-
-            const barCtx = document.getElementById('barChart').getContext('2d');
-            new Chart(barCtx, {
-                type: 'bar',
-                data: {
-                    labels: data.months,
-                    datasets: [{
-                        label: 'New Customers',
-                        data: data.customers,
-                        backgroundColor: '#6366f1'
-                    }]
-                },
-                options: { responsive: true, maintainAspectRatio: false }
-            });
-
         } catch (err) {
-            console.error('Failed to load chart data:', err);
+            console.error('Data load error:', err);
         }
     };
 
-    // Fetch and Parse Markdown
+    // --- Fetch Markdown ---
     const initMarkdown = async () => {
         try {
             const response = await fetch('notes.md');
             const text = await response.text();
             document.getElementById('markdown-content').innerHTML = marked.parse(text);
         } catch (err) {
-            console.error('Failed to load notes:', err);
+            document.getElementById('markdown-content').innerHTML = "Error loading documentation.";
         }
     };
 
-    // Run
+    // --- Entry Animations ---
+    gsap.from('aside', { duration: 1, x: -100, opacity: 0, ease: 'power4.out' });
+    gsap.from('header', { duration: 1, y: -50, opacity: 0, ease: 'power4.out', delay: 0.2 });
+    
     initThree();
-    initNavigation();
-    initCharts();
+    initDashboard();
     initMarkdown();
-
-    // Intro GSAP
-    gsap.from('aside', { x: -100, opacity: 0, duration: 1, ease: 'power4.out' });
-    gsap.from('header', { y: -50, opacity: 0, duration: 1, delay: 0.2, ease: 'power4.out' });
-    gsap.from('.stat-card', { opacity: 0, scale: 0.9, stagger: 0.1, duration: 0.8, delay: 0.5 });
 });
