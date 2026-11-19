@@ -1,7 +1,16 @@
 # Lions Electro Hub - Initial Build
-- Dark mode responsive UI core implemented.
-- Functional search and category filtering.
-- LocalStorage based persistent Cart system.
-- Welcome 20% discount popup (appears after 2s once per user).
-- Dynamic product rendering from data.json mockup.
-- High contrast accessibility theme.
+
+## Features Implemented:
+- Core responsive dark-mode UI with high contrast.
+- Hero banner with smooth navigation.
+- Dynamic product grid rendering from JSON data.
+- Product category filtering (MacBooks, Gadgets, Lights).
+- Real-time search functionality.
+- Functional Cart System using `localStorage`.
+- Welcome 20% Discount Popup (triggered once per session).
+- Smooth CSS animations and glassmorphism navbar.
+
+## Tech Stack:
+- HTML5, CSS3 (Variables + Flex/Grid)
+- Vanilla JavaScript (ES6)
+- LocalStorage for State persistence.
