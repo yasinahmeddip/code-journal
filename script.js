@@ -1,52 +1,64 @@
-let products = [];
+const products = [
+    { id: 1, name: "MacBook Pro M3 Max", price: 3499.99, cat: "macbook", img: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8" },
+    { id: 2, name: "Aura RGB Smart Lamp", price: 89.00, cat: "lights", img: "https://images.unsplash.com/photo-1534073828943-f801091bb18c" },
+    { id: 3, name: "Mechanical Keyboard G Pro", price: 129.50, cat: "gadgets", img: "https://images.unsplash.com/photo-1511467687858-23d96c32e4ae" },
+    { id: 4, name: "Thunderbolt Hub v4", price: 210.00, cat: "gadgets", img: "https://images.unsplash.com/photo-1591488320449-011701bb6704" },
+    { id: 5, name: "Nanoleaf Shape Panels", price: 199.99, cat: "lights", img: "https://images.unsplash.com/photo-1550537687-c91072c4792d" },
+    { id: 6, name: "MacBook Air M2", price: 1099.00, cat: "macbook", img: "https://images.unsplash.com/photo-1611186871348-b1ec696e52c9" }
+];
+
 let cart = JSON.parse(localStorage.getItem('lions_cart')) || [];
 
-document.addEventListener('DOMContentLoaded', async () => {
-    await loadData();
+document.addEventListener('DOMContentLoaded', () => {
     renderProducts(products);
     updateCartUI();
     
-    if (!localStorage.getItem('popupShown')) {
-        setTimeout(() => {
-            document.getElementById('welcomePopup').style.display = 'flex';
-        }, 2000);
+    if (!localStorage.getItem('visited_lions')) {
+        setTimeout(() => document.getElementById('welcomePopup').classList.remove('hidden'), 2000);
     }
 
-    document.getElementById('productSearch').addEventListener('input', (e) => {
-        const term = e.target.value.toLowerCase();
-        const filtered = products.filter(p => p.name.toLowerCase().includes(term));
+    document.getElementById('closePopup').addEventListener('click', () => {
+        document.getElementById('welcomePopup').classList.add('hidden');
+        localStorage.setItem('visited_lions', 'true');
+    });
+
+    document.getElementById('cartToggle').addEventListener('click', () => {
+        document.getElementById('cartSidebar').classList.toggle('hidden');
+    });
+
+    document.getElementById('closeCart').addEventListener('click', () => {
+        document.getElementById('cartSidebar').classList.add('hidden');
+    });
+
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            e.target.classList.add('active');
+            const cat = e.target.dataset.cat;
+            const filtered = cat === 'all' ? products : products.filter(p => p.cat === cat);
+            renderProducts(filtered);
+        });
+    });
+
+    document.getElementById('searchBtn').addEventListener('click', () => {
+        const query = document.getElementById('searchInput').value.toLowerCase();
+        const filtered = products.filter(p => p.name.toLowerCase().includes(query));
         renderProducts(filtered);
     });
 });
 
-async function loadData() {
-    try {
-        const response = await fetch('data.json');
-        products = await response.json();
-    } catch (e) {
-        console.error('Data failed to load', e);
-    }
-}
-
-function renderProducts(list) {
+function renderProducts(items) {
     const grid = document.getElementById('productGrid');
-    grid.innerHTML = list.map(p => `
-        <div class="product-card">
-            <img src="${p.image}" onerror="this.src='https://placehold.co/400x300/1a1a1a/f59e0b?text=Lions+Electro'" alt="${p.name}">
+    grid.innerHTML = items.map(p => `
+        <div class="product-card fade-in">
+            <img src="${p.img}" class="product-img" alt="${p.name}" onerror="this.src='https://placehold.co/400x300/1a1a1a/f59e0b?text=Lions+Electro'">
             <div class="product-info">
-                <h4>${p.name}</h4>
-                <p class="price">$${p.price}</p>
-                <button class="cta-btn" style="width:100%; margin-top:10px" onclick="addToCart(${p.id})">Add to Cart</button>
+                <h3>${p.name}</h3>
+                <p class="product-price">$${p.price.toFixed(2)}</p>
+                <button class="btn-accent w-100" onclick="addToCart(${p.id})">Add To Cart</button>
             </div>
         </div>
     `).join('');
-}
-
-function filterProducts(cat) {
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    event.target.classList.add('active');
-    const filtered = cat === 'all' ? products : products.filter(p => p.category === cat);
-    renderProducts(filtered);
 }
 
 function addToCart(id) {
@@ -54,24 +66,26 @@ function addToCart(id) {
     cart.push(product);
     localStorage.setItem('lions_cart', JSON.stringify(cart));
     updateCartUI();
-    toggleCart(true);
+    alert(`${product.name} added to cart!`);
 }
 
 function updateCartUI() {
-    const cartItems = document.getElementById('cartItems');
     const cartCount = document.getElementById('cartCount');
-    const totalPrice = document.getElementById('totalPrice');
+    const cartItems = document.getElementById('cartItems');
+    const cartTotal = document.getElementById('cartTotal');
     
     cartCount.innerText = cart.length;
+    
     cartItems.innerHTML = cart.map((item, index) => `
-        <div style="display:flex; justify-content:space-between; margin-bottom:10px; border-bottom:1px solid #333; padding-bottom:5px">
+        <div class="flex-between" style="margin-bottom: 10px; border-bottom: 1px solid #334155; padding-bottom: 5px;">
             <span>${item.name}</span>
-            <span>$${item.price} <button onclick="removeFromCart(${index})" style="background:none; border:none; color:red; cursor:pointer">×</button></span>
+            <span>$${item.price.toFixed(2)}</span>
+            <button onclick="removeFromCart(${index})" style="background:none; border:none; color:red; cursor:pointer;">🗑️</button>
         </div>
     `).join('');
-    
+
     const total = cart.reduce((sum, item) => sum + item.price, 0);
-    totalPrice.innerText = total.toFixed(2);
+    cartTotal.innerText = `$${total.toFixed(2)}`;
 }
 
 function removeFromCart(index) {
@@ -80,17 +94,6 @@ function removeFromCart(index) {
     updateCartUI();
 }
 
-function toggleCart(forceOpen = false) {
-    const drawer = document.getElementById('cartDrawer');
-    if (forceOpen) drawer.classList.add('open');
-    else drawer.classList.toggle('open');
-}
-
-function closePopup() {
-    document.getElementById('welcomePopup').style.display = 'none';
-    localStorage.setItem('popupShown', 'true');
-}
-
 function scrollToProducts() {
-    document.getElementById('productGrid').scrollIntoView({ behavior: 'smooth' });
+    document.querySelector('.filters').scrollIntoView({ behavior: 'smooth' });
 }
