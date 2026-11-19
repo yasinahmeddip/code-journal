@@ -1,15 +1,19 @@
-:root {
-    --accent: #6366f1;
+body {
+    color: #f1f5f9;
+    cursor: default;
 }
 
-body {
-    font-family: 'Inter', system-ui, sans-serif;
+.card-glass {
+    background: rgba(30, 41, 59, 0.4);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
 }
 
 .nav-btn.active {
-    background: rgba(99, 102, 241, 0.15);
-    color: var(--accent);
-    border-right: 3px solid var(--accent);
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border-left: 3px solid #60a5fa;
 }
 
 .custom-scrollbar::-webkit-scrollbar {
@@ -21,24 +25,29 @@ body {
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: #1e293b;
+    background: rgba(255, 255, 255, 0.1);
     border-radius: 10px;
 }
 
-.stat-card {
-    transition: transform 0.3s ease, border-color 0.3s ease;
+.prose h1, .prose h2, .prose h3 {
+    color: #60a5fa;
+    font-weight: 700;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
 }
 
-.stat-card:hover {
-    transform: translateY(-5px);
-    border-color: var(--accent);
+.prose p {
+    color: #94a3b8;
+    line-height: 1.7;
+    margin-bottom: 1rem;
 }
 
-.view-section {
-    animation: fadeIn 0.5s ease-out forwards;
+.prose ul {
+    list-style-type: disc;
+    padding-left: 1.5rem;
+    color: #94a3b8;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+#bg-canvas {
+    pointer-events: none;
 }
