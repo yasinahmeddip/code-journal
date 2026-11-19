@@ -3,101 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QuantumDash | Analytics</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
+    <title>Lions Electro Hub | Premium Gadgets</title>
     <link rel="stylesheet" href="style.css">
-    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body class="bg-slate-950 overflow-hidden font-sans">
-    <canvas id="bg-canvas" class="fixed top-0 left-0 -z-10 w-full h-full"></canvas>
-    
-    <div class="flex h-screen overflow-hidden">
-        <!-- Sidebar -->
-        <aside class="w-64 bg-slate-900/50 backdrop-blur-xl border-r border-white/10 flex flex-col p-6">
-            <div class="flex items-center gap-3 mb-10">
-                <img src="graphic.svg" alt="Logo" class="w-10 h-10">
-                <span class="text-xl font-bold bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent">Quantum</span>
-            </div>
-            <nav class="space-y-2 flex-grow">
-                <button data-target="overview" class="nav-btn active w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 text-slate-400 hover:text-white hover:bg-white/5">
-                    <span>Dashboard</span>
-                </button>
-                <button data-target="notes" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 text-slate-400 hover:text-white hover:bg-white/5">
-                    <span>Documentation</span>
-                </button>
-                <button data-target="settings" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 text-slate-400 hover:text-white hover:bg-white/5">
-                    <span>Settings</span>
-                </button>
-            </nav>
-            <div class="mt-auto">
-                <div class="p-4 rounded-2xl bg-gradient-to-br from-indigo-600 to-purple-600 text-sm">
-                    <p class="font-medium mb-2">Pro Plan Active</p>
-                    <p class="text-indigo-100 opacity-80">Access to advanced AI metrics.</p>
-                </div>
-            </div>
+<body class="dark-mode">
+    <nav class="navbar">
+        <div class="logo">
+            <img src="logo.svg" alt="Lions Logo" width="40">
+            <span>Lions Electro Hub</span>
+        </div>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search gadgets...">
+            <button onclick="app.search()"><i class="fa fa-search"></i></button>
+        </div>
+        <div class="nav-actions">
+            <button id="cartBtn" onclick="app.toggleCart()">
+                <i class="fa fa-shopping-cart"></i>
+                <span id="cartCount">0</span>
+            </button>
+            <button id="loginBtn" class="btn-primary">Login</button>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <h1>Power Your Future</h1>
+            <p>Premium MacBooks, RGB Lighting, and Next-Gen Gadgets.</p>
+            <button class="btn-cta" onclick="app.scrollToShop()">Shop Now</button>
+        </div>
+    </header>
+
+    <main class="container">
+        <aside class="filters">
+            <h3>Categories</h3>
+            <ul id="categoryList">
+                <li class="active" onclick="app.filter('all')">All Products</li>
+                <li onclick="app.filter('laptops')">Laptops</li>
+                <li onclick="app.filter('lighting')">Lighting</li>
+                <li onclick="app.filter('audio')">Audio</li>
+                <li onclick="app.filter('accessories')">Accessories</li>
+            </ul>
         </aside>
 
-        <!-- Main Content -->
-        <main class="flex-1 flex flex-col relative">
-            <header class="h-20 flex items-center justify-between px-8 bg-slate-900/30 backdrop-blur-md border-b border-white/10">
-                <h1 id="view-title" class="text-2xl font-semibold">Overview</h1>
-                <div class="flex items-center gap-4">
-                    <div class="h-10 w-10 rounded-full bg-gradient-to-tr from-cyan-400 to-blue-600"></div>
-                </div>
-            </header>
+        <section class="shop-section" id="shop">
+            <div class="product-grid" id="productGrid"></div>
+        </section>
+    </main>
 
-            <div id="content-area" class="p-8 overflow-y-auto custom-scrollbar">
-                <!-- Overview Section -->
-                <section id="overview" class="view-section">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                        <div class="card-glass p-6 rounded-3xl">
-                            <p class="text-slate-400 text-sm mb-1">Active Nodes</p>
-                            <h3 id="stat-nodes" class="text-3xl font-bold">--</h3>
-                        </div>
-                        <div class="card-glass p-6 rounded-3xl">
-                            <p class="text-slate-400 text-sm mb-1">Uptime</p>
-                            <h3 id="stat-uptime" class="text-3xl font-bold">--</h3>
-                        </div>
-                        <div class="card-glass p-6 rounded-3xl">
-                            <p class="text-slate-400 text-sm mb-1">Hashrate</p>
-                            <h3 id="stat-hash" class="text-3xl font-bold">--</h3>
-                        </div>
-                    </div>
-                    <div class="card-glass p-6 rounded-3xl">
-                        <canvas id="mainChart"></canvas>
-                    </div>
-                </section>
-
-                <!-- Notes Section -->
-                <section id="notes" class="view-section hidden">
-                    <div id="markdown-content" class="prose prose-invert max-w-none card-glass p-10 rounded-3xl">
-                        Loading documentation...
-                    </div>
-                </section>
-
-                <!-- Settings Section -->
-                <section id="settings" class="view-section hidden">
-                    <div class="card-glass p-10 rounded-3xl">
-                        <h2 class="text-2xl font-bold mb-6">System Settings</h2>
-                        <div class="space-y-6">
-                            <div class="flex justify-between items-center pb-4 border-b border-white/10">
-                                <div>
-                                    <p class="font-medium">Hardware Acceleration</p>
-                                    <p class="text-sm text-slate-400">Optimize performance for 3D visuals.</p>
-                                </div>
-                                <div class="w-12 h-6 bg-emerald-500 rounded-full flex items-center px-1">
-                                    <div class="w-4 h-4 bg-white rounded-full ml-auto"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            </div>
-        </main>
+    <div id="cartSidebar" class="cart-sidebar">
+        <div class="cart-header">
+            <h2>Your Cart</h2>
+            <button onclick="app.toggleCart()">&times;</button>
+        </div>
+        <div id="cartItems"></div>
+        <div class="cart-footer">
+            <div class="total">Total: $<span id="cartTotal">0</span></div>
+            <button class="btn-checkout" onclick="app.checkout()">Proceed to Checkout</button>
+        </div>
     </div>
+
+    <div id="welcomePopup" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="app.closePopup()">&times;</span>
+            <h2>Welcome to the Pride!</h2>
+            <p>Get 20% OFF your first order with code: <b>LION20</b></p>
+            <button class="btn-primary" onclick="app.closePopup()">Claim Discount</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2023 Lions Electro Hub. Stay Wired.</p>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
