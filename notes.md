@@ -1,18 +1,16 @@
-# QuantumDash Release Notes
+# Quantum System v2.0
 
-### Version 1.0.4 - "Nebula"
+Welcome to the next generation of cloud performance tracking. This dashboard provides real-time insights into your distributed infrastructure.
 
-Welcome to the latest version of the enterprise-grade dashboard. This update focuses on **speed**, **visual clarity**, and **data integration**.
+### Core Features
+- **Real-time Monitoring**: Direct socket connection to global nodes.
+- **Three.js Visualizer**: GPU-accelerated background rendering for sensory feedback.
+- **GSAP Orchestration**: Smooth UI transitions for zero-lag feeling.
+- **Markdown Integration**: Dynamic documentation rendering using Marked.js.
 
-#### Key Features:
-- **Three.js Core**: Hardware-accelerated background visuals for low-power consumption devices.
-- **Real-time Analytics**: Connected to the `data.json` endpoint for dynamic updates.
-- **Glassmorphism UI**: Using Tailwind CSS for high-fidelity component design.
-- **Interactive Navigation**: Seamless state transitions powered by GSAP.
+### Quick Start
+1. Review the **Dashboard** for current throughput.
+2. Adjust node balancing in **Settings**.
+3. Read the API specs in this **Documentation** tab.
 
-#### Project Structure:
-- `index.html`: Optimized CDN resource delivery.
-- `script.js`: Unified logic controller.
-- `style.css`: Modern styling layer.
-
-*Created by the Senior Frontend Team.*
+*System Status: Optimal*
