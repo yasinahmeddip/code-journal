@@ -1,36 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&display=swap');
+
 body {
+  font-family: 'Space Grotesk', sans-serif;
   margin: 0;
-  font-family: 'Inter', system-ui, sans-serif;
 }
 
-.glass-effect {
-  background: rgba(15, 23, 42, 0.7);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.glass-card {
-  background: rgba(30, 41, 59, 0.5);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-}
-
-#bg-canvas {
-  pointer-events: none;
-}
-
-/* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 4px;
 }
-::-webkit-scrollbar-track {
-  background: #0f172a;
-}
+
 ::-webkit-scrollbar-thumb {
   background: #334155;
-  border-radius: 4px;
+  border-radius: 10px;
 }
-::-webkit-scrollbar-thumb:hover {
-  background: #475569;
+
+.logo-anim {
+  filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.5));
+}
+
+#md-render h2 {
+  color: #60a5fa !important;
+  font-weight: 700;
+  margin-top: 1rem;
+}
+
+#md-render ul {
+  list-style: disc;
+  padding-left: 1.2rem;
+}
+
+.prose-sm p {
+  margin-bottom: 0.75rem;
+  line-height: 1.6;
 }
