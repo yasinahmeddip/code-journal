@@ -1,10 +1,13 @@
-# Lions Electro Hub - Initial Core
+# Lions Electro Hub - Initial Build
 
 ## Features Implemented:
-- Core dark-mode layout with gold accents.
-- Responsive product grid with category filtering.
-- Functional shopping cart using `localStorage`.
-- Search bar for product filtering.
-- Welcome popup for first-time visitors (20% discount code).
-- Image fallback handling using `onerror`.
-- Smooth UI transitions and hover states.
+- Core Responsive Dark-Mode Layout.
+- High contrast UI using Slate and Amber colors.
+- Dynamic Product Grid with image fallback (`onerror`).
+- Functional Shopping Cart using `localStorage`.
+- Search and Category Filtering system.
+- Welcome Popup with 20% discount code (appears once per session).
+- Smooth CSS animations for product entry and hovers.
+
+## Next Steps:
+1. Product details modal/view & category filter (Incremental update 1).
