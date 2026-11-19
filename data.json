@@ -1,15 +1,6 @@
 {
-  "chartData": {
-    "labels": ["00:00", "04:00", "08:00", "12:00", "16:00", "20:00"],
-    "datasets": [{
-      "label": "Network Load",
-      "data": [45, 52, 38, 65, 48, 70],
-      "borderColor": "#3b82f6",
-      "backgroundColor": "rgba(59, 130, 246, 0.1)",
-      "fill": true,
-      "tension": 0.4,
-      "borderWidth": 3,
-      "pointRadius": 0
-    }]
-  }
+  "months": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
+  "revenue": [45000, 52000, 48000, 61000, 59000, 72000, 85000],
+  "customers": [120, 150, 140, 190, 180, 210, 250],
+  "active": 8294
 }
